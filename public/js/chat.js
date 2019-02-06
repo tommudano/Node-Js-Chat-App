@@ -1,7 +1,7 @@
 let socket = io();
 const messages = document.querySelector('#messages');
 
-function scrollTiBottom() {
+function scrollToBottom() {
   // Selector
   let messagesContent = jQuery('#messages');
   let newMessage = messagesContent.children('li:last-child');
@@ -19,11 +19,30 @@ function scrollTiBottom() {
 }
 
 socket.addEventListener('connect', function() {
-  console.log('Connected to server');
+  let params = jQuery.deparam(window.location.search);
+
+  socket.emit('join', params, function (err) {
+    if(err) {
+      alert(err);
+      window.location.href = '/';
+    } else {
+      console.log('No error');
+    }
+  });
 });
 
 socket.addEventListener('disconnect', function() {
   console.log('Disconnected from server');
+});
+
+socket.addEventListener('updateUserList', function(users) {
+  let ul = jQuery('<ul></ul>');
+
+  users.forEach(function(user) {
+    ul.append(jQuery('<li></li>').text(user));
+  });
+
+  jQuery('#users').html(ul);
 });
 
 socket.addEventListener('newMessage', function(message) {
@@ -36,7 +55,7 @@ socket.addEventListener('newMessage', function(message) {
   });
 
   messages.innerHTML += html;
-  scrollTiBottom();
+  scrollToBottom();
 });
 
 socket.addEventListener('newLocationMessage', function(message) {
@@ -49,7 +68,7 @@ socket.addEventListener('newLocationMessage', function(message) {
   });
 
   messages.innerHTML += html;
-  scrollTiBottom();
+  scrollToBottom();
 });
 
 document.querySelector('#messageForm').addEventListener('submit', function(e) {
