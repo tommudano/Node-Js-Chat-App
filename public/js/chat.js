@@ -35,6 +35,12 @@ socket.addEventListener('disconnect', function() {
   console.log('Disconnected from server');
 });
 
+socket.addEventListener('changeRoomTitle', function(roomTitle) {
+  let title = document.querySelector('#roomTitle');
+
+  title.innerText = roomTitle;
+});
+
 socket.addEventListener('updateUserList', function(users) {
   let ul = jQuery('<ul></ul>');
 
