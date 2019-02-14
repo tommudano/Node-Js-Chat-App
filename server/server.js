@@ -24,8 +24,14 @@ io.on('connection', (socket) => {
   socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat app'));
 
   socket.on('join', (params, callback) => {
-    if(!isRealString(params.name) || !isRealString(params.room.toUpperCase())) {
-      return callback('Name and room name are required.');
+    if(!isRealString(params.name)) {
+      return callback('Name is required.');
+    } else if(!isRealString(params.room.toUpperCase()) && !params.select) {
+      return callback('Room name is required.');
+    } else if(params.select && !isRealString(params.select)) {
+      return callback('egerg');
+    } else if(params.select && !params.room) {
+      params.room = params.select;
     }
 
     socket.join(params.room.toUpperCase());

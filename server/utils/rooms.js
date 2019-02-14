@@ -17,7 +17,6 @@ class Rooms {
       this.rooms = this.rooms.filter((room) => room !== roomName).concat(this.rooms.filter((room) => room === roomName)[1]).filter((room) => room !== undefined).sort();
     }
 
-    console.log(this.rooms);
     return this.rooms;
   }
 }

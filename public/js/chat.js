@@ -49,7 +49,21 @@ socket.addEventListener('updateUserList', function(users) {
   });
 
   jQuery('#users').html(ul);
+
+  highlightOwn();
 });
+
+function highlightOwn() {
+  // console.log(jQuery.deparam(window.location.search).name);
+
+  let li = document.querySelectorAll('#users ul li');
+
+  for(let i = 0; i < li.length; i++) {
+    if(li[i].innerText === jQuery.deparam(window.location.search).name) {
+      li[i].style.fontWeight = 'bold';
+    }
+  }
+}
 
 socket.addEventListener('newMessage', function(message) {
   let formattedTime = moment(message.createdAt).format('h:mm a');

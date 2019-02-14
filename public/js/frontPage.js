@@ -10,17 +10,15 @@ socket.addEventListener('loadRoomList', function(rooms) {
       });
     };
 
-    console.log(uniqueRoomsArray(rooms.rooms));
-    console.log(rooms);
-
     let selectRoom = document.querySelector('#selectRoom');
-    selectRoom.innerHTML = '';
+    selectRoom.innerHTML = '<option value="dafault" selected disabled>Join an existing room</option>';
 
     uniqueRoomsArray(rooms.rooms).forEach(function(room) {
       let option = document.createElement('option');
       option.value = room;
       option.innerText = room;
 
+      // selectRoom.innerHTML = '<option value="dafault" selected>Join an existing room</option>';
       selectRoom.appendChild(option);
     });
   }
